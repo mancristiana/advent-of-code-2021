@@ -1,0 +1,13 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "1.0.0",
+  "description": "Solutions for puzzles from https://adventofcode.com/2021, made in JavaScript",
+  "main": "index.js",
+  "repository": "https://github.com/mancristiana/advent-of-code-2021.git",
+  "author": "Cristiana Man <man.cristiana1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^2.5.0"
+  },
+  "type": "module"
+}
