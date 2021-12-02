@@ -1,4 +1,3 @@
-import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { readInput } from '../utils/readInput.js'
 
@@ -30,8 +29,7 @@ const solve = (data) => {
   return depth * horizontalPosition
 }
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const inputPath = path.resolve(__dirname, 'input.txt')
+const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
 
 const data = await readInput(inputPath)
 
