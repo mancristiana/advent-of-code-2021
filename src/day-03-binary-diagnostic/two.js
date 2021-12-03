@@ -17,14 +17,14 @@ const getOccurenceDifference = (lines, index) => {
 const solve = (data) => {
   const lines = data.split('\n')
 
-  let oxigenRate = [...lines]
+  let oxygenRate = [...lines]
   let co2Rate = [...lines]
 
   let index = 0
-  while (oxigenRate.length > 1) {
-    const occurenceDifference = getOccurenceDifference(oxigenRate, index)
+  while (oxygenRate.length > 1) {
+    const occurenceDifference = getOccurenceDifference(oxygenRate, index)
     const bitCriteria = occurenceDifference > 0 ? '0' : '1'
-    oxigenRate = oxigenRate.filter((line) => line.charAt(index) === bitCriteria)
+    oxygenRate = oxygenRate.filter((line) => line.charAt(index) === bitCriteria)
     index++
   }
 
@@ -36,7 +36,7 @@ const solve = (data) => {
     index++
   }
 
-  return parseInt(oxigenRate[0], 2) * parseInt(co2Rate[0], 2)
+  return parseInt(oxygenRate[0], 2) * parseInt(co2Rate[0], 2)
 }
 
 const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
