@@ -58,7 +58,7 @@ const solve = (data) => {
   let winPlaceCounter = 0
 
   bingoNumbers.forEach((bingoNumber) => {
-    return boards.forEach((board) => {
+    boards.forEach((board) => {
       if (board.winPlace > 0) {
         return
       }
