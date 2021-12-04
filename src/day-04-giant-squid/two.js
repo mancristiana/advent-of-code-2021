@@ -44,7 +44,7 @@ const solve = (data) => {
     .map((numberAsString) => Number(numberAsString))
   let boards = boardsAsString.map((boardAsString) => ({
     winPlace: 0,
-    bingo: 0,
+    score: 0,
     board: boardAsString
       .replaceAll('\n', ' ')
       .split(' ')
@@ -78,7 +78,7 @@ const solve = (data) => {
       if (isWinner) {
         winPlaceCounter++
         board.winPlace = winPlaceCounter
-        board.bingo = bingoNumber
+        board.score = calculateScore(board.board, bingoNumber)
       }
     })
   })
@@ -86,7 +86,7 @@ const solve = (data) => {
   const lastPlaceBoard = boards.find(
     (board) => board.winPlace === winPlaceCounter
   )
-  return calculateScore(lastPlaceBoard.board, lastPlaceBoard.bingo)
+  return lastPlaceBoard.score
 }
 
 const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
