@@ -46,8 +46,7 @@ const solve = (data) => {
     winPlace: 0,
     bingo: 0,
     board: boardAsString
-      .split('\n')
-      .join(' ')
+      .replaceAll('\n', ' ')
       .split(' ')
       .filter(Boolean)
       .map((numberAsString) => ({
@@ -81,7 +80,9 @@ const solve = (data) => {
     })
   })
 
-  const lastPlaceBoard = boards.find(board => board.winPlace === winPlaceCounter)
+  const lastPlaceBoard = boards.find(
+    (board) => board.winPlace === winPlaceCounter
+  )
   return calculateScore(lastPlaceBoard.board, lastPlaceBoard.bingo)
 }
 

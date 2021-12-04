@@ -44,8 +44,7 @@ const solve = (data) => {
     .map((numberAsString) => Number(numberAsString))
   const boards = boardsAsString.map((boardAsString) =>
     boardAsString
-      .split('\n')
-      .join(' ')
+      .replaceAll('\n', ' ')
       .split(' ')
       .filter(Boolean)
       .map((numberAsString) => ({
