@@ -62,13 +62,16 @@ const solve = (data) => {
       if (board.winPlace > 0) {
         return
       }
-      const condition = (item) => item.number === bingoNumber
-      const bingoNumberIndexOnBoard = board.board.findIndex(condition)
-      const bingoNumberOnBoard = board.board.find(condition)
+      const bingoNumberOnBoard = board.board.find(
+        (item) => item.number === bingoNumber
+      )
       if (!bingoNumberOnBoard) {
         return
       }
       bingoNumberOnBoard.marked = true
+      const bingoNumberIndexOnBoard = board.board.findIndex(
+        (item) => item === bingoNumberOnBoard
+      )
       const isRow = checkRow(board.board, bingoNumberIndexOnBoard)
       const isColumn = checkColumn(board.board, bingoNumberIndexOnBoard)
       const isWinner = isRow || isColumn
