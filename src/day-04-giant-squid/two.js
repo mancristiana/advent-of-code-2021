@@ -43,8 +43,7 @@ const solve = (data) => {
     .split(',')
     .map((numberAsString) => Number(numberAsString))
   let boards = boardsAsString.map((boardAsString) => ({
-    winPlace: 0,
-    score: 0,
+    won: false,
     board: boardAsString
       .replaceAll('\n', ' ')
       .split(' ')
@@ -55,38 +54,35 @@ const solve = (data) => {
       })),
   }))
 
-  let winPlaceCounter = 0
+  let lastWinningScore = 0
 
   bingoNumbers.forEach((bingoNumber) => {
-    boards.forEach((board) => {
-      if (board.winPlace > 0) {
+    boards.forEach((boardObject) => {
+      const { board, won } = boardObject
+      if (won) {
         return
       }
-      const bingoNumberOnBoard = board.board.find(
+      const bingoNumberOnBoard = board.find(
         (item) => item.number === bingoNumber
       )
       if (!bingoNumberOnBoard) {
         return
       }
       bingoNumberOnBoard.marked = true
-      const bingoNumberIndexOnBoard = board.board.findIndex(
+      const bingoNumberIndexOnBoard = board.findIndex(
         (item) => item === bingoNumberOnBoard
       )
-      const isRow = checkRow(board.board, bingoNumberIndexOnBoard)
-      const isColumn = checkColumn(board.board, bingoNumberIndexOnBoard)
+      const isRow = checkRow(board, bingoNumberIndexOnBoard)
+      const isColumn = checkColumn(board, bingoNumberIndexOnBoard)
       const isWinner = isRow || isColumn
       if (isWinner) {
-        winPlaceCounter++
-        board.winPlace = winPlaceCounter
-        board.score = calculateScore(board.board, bingoNumber)
+        boardObject.won = true
+        lastWinningScore = calculateScore(board, bingoNumber)
       }
     })
   })
 
-  const lastPlaceBoard = boards.find(
-    (board) => board.winPlace === winPlaceCounter
-  )
-  return lastPlaceBoard.score
+  return lastWinningScore
 }
 
 const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
