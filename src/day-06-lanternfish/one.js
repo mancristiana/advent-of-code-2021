@@ -1,19 +1,24 @@
 import { URL, fileURLToPath } from 'url'
 import { readInput } from '../utils/readInput.js'
 
+const getNewFishPopulation = (fish) => {
+  let newFishCount = 0
+  const newFishPopulation = fish.map((f) => {
+    if (f === 0) {
+      newFishCount++
+      return 6
+    }
+    return f - 1
+  })
+  newFishPopulation.push(...Array(newFishCount).fill(8))
+  return newFishPopulation
+}
+
 const solve = (data) => {
-  const fish = data.split(',').map((n) => Number(n))
+  let fish = data.split(',').map((n) => Number(n))
 
   for (let day = 1; day <= 80; day++) {
-    let newFishCount = 0
-    fish = fish.map((f) => {
-      if (f === 0) {
-        newFishCount++
-        return 6
-      }
-      return f - 1
-    })
-    fish.push(...Array(newFishCount).fill(8))
+    fish = getNewFishPopulation(fish)
   }
   return fish.length
 }
