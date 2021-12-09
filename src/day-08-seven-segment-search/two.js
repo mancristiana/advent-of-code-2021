@@ -15,9 +15,9 @@ const sevenSegmentDisplay = [
 ]
 const abcdefgOccurence = { a: 8, b: 6, c: 8, d: 7, e: 4, f: 9, g: 7 }
 
-const calculateLetterOccurence = (signalPatterns) => {
+const calculateLetterOccurence = (segmentPatterns) => {
   const occurence = { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0 }
-  signalPatterns
+  segmentPatterns
     .replaceAll(' ', '')
     .split('')
     .forEach((letter) => occurence[letter]++)
@@ -36,15 +36,15 @@ const findLetter = (letterOccurence, value) => {
   return letters
 }
 
-const findDigitBySignalsLength = (signalPatternsString, length) => {
-  return signalPatternsString
+const findDigitBySignalsLength = (segmentPatternsString, length) => {
+  return segmentPatternsString
     .split(' ')
     .find((digit) => digit.length === length)
 }
 
-const findA = (signalPatternsString) => {
-  const one = findDigitBySignalsLength(signalPatternsString, 2)
-  const seven = findDigitBySignalsLength(signalPatternsString, 3)
+const findA = (segmentPatternsString) => {
+  const one = findDigitBySignalsLength(segmentPatternsString, 2)
+  const seven = findDigitBySignalsLength(segmentPatternsString, 3)
 
   let a = seven
   one.split('').forEach((letter) => {
@@ -53,15 +53,15 @@ const findA = (signalPatternsString) => {
   return a
 }
 
-const findC = (signalPatternsString, letterF) => {
-  const one = signalPatternsString
+const findC = (segmentPatternsString, letterF) => {
+  const one = segmentPatternsString
     .split(' ')
     .find((digit) => digit.length === 2)
   return one.replace(letterF, '')
 }
 
-const findD = (signalPatternsString, signalMap) => {
-  const four = findDigitBySignalsLength(signalPatternsString, 4)
+const findD = (segmentPatternsString, signalMap) => {
+  const four = findDigitBySignalsLength(segmentPatternsString, 4)
   return four
     .replace(signalMap.b, '')
     .replace(signalMap.c, '')
@@ -76,35 +76,35 @@ const findG = (signalMap) => {
   return allLetters
 }
 
-const findSignalMap = (signalPatternsString) => {
-  const signalMap = { a: '', b: '', c: '', d: '', e: '', f: '', g: '' }
+const findSegmentNamesMap = (segmentPatternsString) => {
+  const segmentMap = { a: '', b: '', c: '', d: '', e: '', f: '', g: '' }
 
-  const letterOccurence = calculateLetterOccurence(signalPatternsString)
-  signalMap.b = findLetter(letterOccurence, abcdefgOccurence.b)
-  signalMap.e = findLetter(letterOccurence, abcdefgOccurence.e)
-  signalMap.f = findLetter(letterOccurence, abcdefgOccurence.f)
-  signalMap.a = findA(signalPatternsString)
-  signalMap.c = findC(signalPatternsString, signalMap.f)
-  signalMap.d = findD(signalPatternsString, signalMap)
-  signalMap.g = findG(signalMap)
-  return signalMap
+  const letterOccurence = calculateLetterOccurence(segmentPatternsString)
+  segmentMap.b = findLetter(letterOccurence, abcdefgOccurence.b)
+  segmentMap.e = findLetter(letterOccurence, abcdefgOccurence.e)
+  segmentMap.f = findLetter(letterOccurence, abcdefgOccurence.f)
+  segmentMap.a = findA(segmentPatternsString)
+  segmentMap.c = findC(segmentPatternsString, segmentMap.f)
+  segmentMap.d = findD(segmentPatternsString, segmentMap)
+  segmentMap.g = findG(segmentMap)
+  return segmentMap
 }
 
 const getOutput = (line) => {
-  const [signalPatternsString, digitsString] = line.split(' | ')
-  const signalMap = findSignalMap(signalPatternsString)
-  const correspondingSevenSignalDisplay = sevenSegmentDisplay.map((digit) =>
+  const [segmentPatternsString, outputValuesString] = line.split(' | ')
+  const segmentMap = findSegmentNamesMap(segmentPatternsString)
+  const correspondingSevenSegmentDisplay = sevenSegmentDisplay.map((digit) =>
     digit
       .split('')
-      .map((letter) => signalMap[letter])
+      .map((letter) => segmentMap[letter])
       .sort()
       .join('')
   )
-  const fourDigitsAsString = digitsString
+  const fourDigitsAsString = outputValuesString
     .split(' ')
     .map((digit) => {
       const sortedDigit = digit.split('').sort().join('')
-      const x = correspondingSevenSignalDisplay.findIndex(
+      const x = correspondingSevenSegmentDisplay.findIndex(
         (signalDisplay) => signalDisplay === sortedDigit
       )
       return x
@@ -116,7 +116,6 @@ const getOutput = (line) => {
 
 const solve = (data) => {
   const lines = data.split('\n')
-
   return lines.reduce((sum, line) => sum + getOutput(line), 0)
 }
 
