@@ -90,17 +90,17 @@ const findSegmentNamesMap = (segmentPatternsString) => {
   return segmentMap
 }
 
-const getOutput = (line) => {
-  const [segmentPatternsString, outputValuesString] = line.split(' | ')
-  const segmentMap = findSegmentNamesMap(segmentPatternsString)
-  const correspondingSevenSegmentDisplay = sevenSegmentDisplay.map((digit) =>
-    digit
-      .split('')
-      .map((letter) => segmentMap[letter])
-      .sort()
-      .join('')
+const getSevenSegmentDisplay = (segmentMap) => {
+  return sevenSegmentDisplay.map((digit) => digit
+    .split('')
+    .map((letter) => segmentMap[letter])
+    .sort()
+    .join('')
   )
-  const fourDigitsAsString = outputValuesString
+}
+
+const getOutputDigits = (outputValuesString, correspondingSevenSegmentDisplay) => {
+  const outputDigits = outputValuesString
     .split(' ')
     .map((digit) => {
       const sortedDigit = digit.split('').sort().join('')
@@ -111,7 +111,15 @@ const getOutput = (line) => {
     })
     .join('')
 
-  return Number(fourDigitsAsString)
+    return Number(outputDigits)
+}
+
+const getOutput = (line) => {
+  const [segmentPatternsString, outputValuesString] = line.split(' | ')
+  const segmentMap = findSegmentNamesMap(segmentPatternsString)
+  const correspondingSevenSegmentDisplay = getSevenSegmentDisplay(segmentMap)
+
+  return getOutputDigits(outputValuesString, correspondingSevenSegmentDisplay)
 }
 
 const solve = (data) => {
@@ -124,3 +132,6 @@ const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
 const data = await readInput(inputPath)
 
 console.log(solve(data))
+
+
+
