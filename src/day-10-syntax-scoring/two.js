@@ -1,13 +1,6 @@
 import { URL, fileURLToPath } from 'url'
 import { readInput } from '../utils/readInput.js'
 
-const illegalBracketScoring = {
-  ')': 3,
-  ']': 57,
-  '}': 1197,
-  '>': 25137,
-}
-
 const completionScoring = {
   ')': 1,
   ']': 2,
@@ -24,27 +17,24 @@ const matchingBrackets = {
 
 const isOpeningBracket = (bracket) => ['{', '[', '(', '<'].includes(bracket)
 const isCorrectClosingBracket = (openingBracket, closingBracket) => {
-  if (openingBracket) {
-    return matchingBrackets[openingBracket] === closingBracket
-  } else {
+  if (!openingBracket) {
     return false
-  }
+  } 
+  return matchingBrackets[openingBracket] === closingBracket
 }
 
 const getOpeningBrackets = (line) => {
   const brackets = line.split('')
   const openingBrackets = []
-  let score = 0
-  brackets.some((bracket) => {
+  const hasError = brackets.some((bracket) => {
     if (isOpeningBracket(bracket)) {
       openingBrackets.push(bracket)
     } else if (!isCorrectClosingBracket(openingBrackets.pop(), bracket)) {
-      score = illegalBracketScoring[bracket]
       return true
     }
   })
 
-  return [score === 0, openingBrackets]
+  return [hasError, openingBrackets]
 }
 
 const getCompletionScore = (openingBrackets) => {
@@ -60,8 +50,8 @@ const getCompletionScore = (openingBrackets) => {
 const solve = (data) => {
   const lines = data.split('\n')
   const completedLineScores = lines.reduce((completed, line) => {
-    const [isCorrect, openingBrackets] = getOpeningBrackets(line)
-    if (!isCorrect) {
+    const [hasError, openingBrackets] = getOpeningBrackets(line)
+    if (hasError) {
       return completed
     } else {
       return [...completed, getCompletionScore(openingBrackets)]

@@ -17,21 +17,20 @@ const matchingBrackets = {
 
 const isOpeningBracket = (bracket) => ["{", "[", "(", "<"].includes(bracket)
 const isCorrectClosingBracket = (openingBracket, closingBracket) => {
-  if (openingBracket) {
-    return matchingBrackets[openingBracket] === closingBracket
-  } else {
+  if (!openingBracket) {
     return false
-  }
+  } 
+  return matchingBrackets[openingBracket] === closingBracket
 }
 
 const getErrorScore = (line) => {
   const brackets = line.split('')
-  const checker = []
+  const openBrackets = []
   let score = 0
   brackets.some(bracket => {
     if (isOpeningBracket(bracket)) {
-      checker.push(bracket)
-    } else if(!isCorrectClosingBracket(checker.pop(), bracket)) {
+      openBrackets.push(bracket)
+    } else if(!isCorrectClosingBracket(openBrackets.pop(), bracket)) {
       score = illegalBracketScoring[bracket]
       return true 
     }
