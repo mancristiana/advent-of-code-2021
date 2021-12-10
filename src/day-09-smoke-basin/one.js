@@ -26,13 +26,14 @@ const solve = (data) => {
   const cols = heightMatrix[0].length
 
   let riskLevel = 0
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
+
+  heightMatrix.forEach((row, i) => {
+    row.forEach((height, j) => {
       if (isLowPoint(heightMatrix, rows, cols, i, j)) {
-        riskLevel += 1 + heightMatrix[i][j]
+        riskLevel += 1 + height
       }
-    }
-  }
+    })
+  })
 
   return riskLevel
 }

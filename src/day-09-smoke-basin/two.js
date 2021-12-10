@@ -21,23 +21,28 @@ const markBasin = (matrix, basinMap, rows, cols, i, j) => {
   }
 }
 
-const calculateBasinSize = (basinMap, rows, cols) => {
+const calculateBasinSize = (basinMap) => {
   let size = 0
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      size += basinMap[i][j]
-    }
-  }
+  basinMap.forEach((row) => {
+    row.forEach((value) => {
+      size += value
+    })
+  })
   return size
 }
 
-const findBasinSize = (matrix, rows, cols, i, j) => {
+const initializeBasinMap = (rows, cols) => {
   const basinMap = new Array(rows)
   for (let k = 0; k < rows; k++) {
     basinMap[k] = new Array(cols).fill(0)
   }
+  return basinMap
+}
+
+const findBasinSize = (matrix, rows, cols, i, j) => {
+  const basinMap = initializeBasinMap(rows, cols)
   markBasin(matrix, basinMap, rows, cols, i, j)
-  return calculateBasinSize(basinMap, rows, cols)
+  return calculateBasinSize(basinMap)
 }
 
 const isLowPoint = (matrix, rows, cols, i, j) => {
@@ -65,13 +70,14 @@ const solve = (data) => {
   const cols = heightMatrix[0].length
 
   const basinSizes = []
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
+
+  heightMatrix.forEach((row, i) => {
+    row.forEach((height, j) => {
       if (isLowPoint(heightMatrix, rows, cols, i, j)) {
         basinSizes.push(findBasinSize(heightMatrix, rows, cols, i, j))
       }
-    }
-  }
+    })
+  })
   basinSizes.sort((a, b) => b - a)
   return basinSizes[0] * basinSizes[1] * basinSizes[2]
 }
