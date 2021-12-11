@@ -76,9 +76,7 @@ const countFlashes = (matrix, rows, cols) => {
   })
 
   resetEnergyLevel(matrix)
-  const sum = sumFlashMap(flashMap)
-  console.log(matrix.map((row) => row.join('')).join('\n'))
-  return sum
+  return sumFlashMap(flashMap)
 }
 
 const solve = (data) => {
