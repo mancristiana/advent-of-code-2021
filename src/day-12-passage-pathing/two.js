@@ -22,20 +22,18 @@ const getVisitedCaves = (visited, cave) => {
   return [...visited, cave]
 }
 
-const getPaths = (links, visitedSmallCaves, paths, path, cave) => {
-  // console.log("CAVE", cave, visitedSmallCaves, paths, path)
+const getPaths = (links, visitedSmallCaves, cave) => {
   if (cave === "end") {
-    // console.log(path)
-    return paths + 1
+    return 1
   }
 
   let generatedPaths = 0
   links[cave].forEach(linkedCave => {
     if (!hasVisitedCave(visitedSmallCaves, linkedCave)) {
-      generatedPaths += getPaths(links, getVisitedCaves(visitedSmallCaves, linkedCave), paths, `${path},${linkedCave}`, linkedCave)
+      generatedPaths += getPaths(links, getVisitedCaves(visitedSmallCaves, linkedCave), linkedCave)
     }
   })
-  return paths + generatedPaths
+  return generatedPaths
 }
 
 const addLink = (links, caveA, caveB) => {
@@ -54,7 +52,7 @@ const solve = (data) => {
     addLink(links, caveA, caveB)
     addLink(links, caveB, caveA)
   })
-  const paths = getPaths(links, ["start"], 0, "start", "start")
+  const paths = getPaths(links, ["start"], "start")
   return paths
 }
 

@@ -4,19 +4,19 @@ import { readInput } from '../utils/readInput.js'
 
 const isSmallCave = (cave) => cave.toLowerCase() === cave
 
-const getPaths = (links, visitedSmallCaves, paths, path, cave) => {
+const getPaths = (links, visitedSmallCaves, cave) => {
   if (cave === "end") {
-    return paths + 1
+    return 1
   }
 
   let generatedPaths = 0
   links[cave].forEach(linkedCave => {
     if (!visitedSmallCaves.includes(linkedCave)) {
       const newVisitedArray = isSmallCave(linkedCave) ? [...visitedSmallCaves, linkedCave] : visitedSmallCaves
-      generatedPaths += getPaths(links, newVisitedArray, paths, `${path},${linkedCave}`, linkedCave)
+      generatedPaths += getPaths(links, newVisitedArray, linkedCave)
     }
   })
-  return paths + generatedPaths
+  return generatedPaths
 }
 
 const addLink = (links, caveA, caveB) => {
@@ -35,7 +35,7 @@ const solve = (data) => {
     addLink(links, caveA, caveB)
     addLink(links, caveB, caveA)
   })
-  return getPaths(links, ["start"], 0, "start", "start")
+  return getPaths(links, ["start"], "start")
 }
 
 const inputPath = fileURLToPath(new URL('./input.txt', import.meta.url))
