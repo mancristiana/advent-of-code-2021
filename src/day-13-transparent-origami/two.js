@@ -37,7 +37,7 @@ const printOrigami = (dots) => {
   for (let y = 0; y <= maxY; y++) {
     let line = ''
     for (let x = 0; x <= maxX; x++) {
-      const character = dots[getKey(x, y)] ? '#' : '.'
+      const character = dots[getKey(x, y)] ? '#' : ' '
       line += character
     }
     console.log(line)
