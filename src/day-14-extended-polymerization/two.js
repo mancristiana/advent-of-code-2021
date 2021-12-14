@@ -87,7 +87,7 @@ const solve = (data) => {
   const pairInsertionRules = getPairInsertionRules(pairInsertionRulesData)
   let pairOccurenceMap = getPairOccurenceMap(template)
 
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 40; ++i) {
     pairOccurenceMap = updatePairOccurenceMap(
       pairOccurenceMap,
       pairInsertionRules
