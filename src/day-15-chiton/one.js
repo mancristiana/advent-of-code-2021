@@ -47,9 +47,7 @@ const solve = (data) => {
   while (++step < nodeCount) {
     const node = findLowestRiskNodeToVisit(visitedMap)
     const neighbours = findNeighbours(node.i, node.j, rows, cols)
-    // console.log("NODE =", node, neighbours)
     neighbours.forEach(({i, j}) => {
-      // console.log(i,j)
       const visitedNeighbour = visitedMap[getVisitedMapKey(i, j)]
       const riskLevel = node.riskLevel + matrix[i][j]
 
@@ -61,7 +59,6 @@ const solve = (data) => {
       }
     })
     node.isDone = true
-    // console.log(visitedMap)
   }
   return visitedMap[getVisitedMapKey(rows - 1, cols - 1)].riskLevel
 }
